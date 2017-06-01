@@ -55,7 +55,6 @@ public class OverlayRenderer {
     pos = getBlockLookedAt(player);
 
     if (pos == null) {
-      System.out.println("null block");
       return;
     }
 
@@ -80,7 +79,7 @@ public class OverlayRenderer {
       return;
     }
 
-    render(x, y, z);
+    render(world.getTotalWorldTime(), x, y, z);
   }
 
   private BlockPos getBlockLookedAt(EntityPlayerSP player) {
@@ -91,27 +90,26 @@ public class OverlayRenderer {
     return null;
   }
 
-  public void render(double x, double y, double z) {
+  public void render(long time, double x, double y, double z) {
     TextureManager tm = Minecraft.getMinecraft().renderEngine;
     GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
     GL11.glPushMatrix();
-    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
     GL11.glEnable(GL11.GL_BLEND);
-
     GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-    drawIconVectors(x, y, z, tm);
+    drawIconVectors(time, x, y, z, tm);
     GL11.glPopMatrix();
     GL11.glPopAttrib();
   }
 
-  private void drawIconVectors(double x, double y, double z, TextureManager tm) {
+  private void drawIconVectors(long time, double x, double y, double z, TextureManager tm) {
     VertexBuffer vb;
     tm.bindTexture(ICONS_TEXTURE);
     vb = Tessellator.getInstance().getBuffer();
     vb.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
     vb.setTranslation(-x, -y, -z);
     if (power > 0) {
-      renderVectors(vb, pos, TEXTURE_OFFSETS[0], strongPowered ? TEXTURE_OFFSETS[0] : TEXTURE_OFFSETS[1]);
+      renderVectors(vb, pos, TEXTURE_OFFSETS[(int)(time % 6)], strongPowered ? TEXTURE_OFFSETS[0] : TEXTURE_OFFSETS[1]);
     }
     vb.setTranslation(0, 0, 0);
     Tessellator.getInstance().draw();

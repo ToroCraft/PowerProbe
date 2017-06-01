@@ -25,7 +25,7 @@ public class MouseHandler {
 
   private BlockPos targetBlockPos;
   private EnumFacing targetBlockSide;
-  private boolean probeInUse;
+  public boolean probeInUse;
 
   public static void init() {
     MinecraftForge.EVENT_BUS.register(INSTANCE);
@@ -34,13 +34,13 @@ public class MouseHandler {
   @SubscribeEvent(priority = EventPriority.NORMAL)
   public void handle(MouseInputEvent event) {
     if (shouldStartUsing()) {
-      startUsing();
+      //startUsing();
     }else if (shouldStopUsing()) {
       stopUsing();
     }
   }
 
-  private void startUsing() {
+  public void startUsing() {
     if (notHoldingProbe()) {
       return;
     }
