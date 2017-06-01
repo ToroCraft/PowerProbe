@@ -1,0 +1,16 @@
+[
+{
+  "modid": "powerprobe",
+  "name": "Redstone Power Probe",
+  "description": "A Minecraft mod to help visualize powered blocks as well as power them",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["ToroCraft"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
