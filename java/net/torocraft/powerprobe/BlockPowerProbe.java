@@ -32,7 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 // TODO make box invisible
 
-// TODO wires shouldnt attach
+// TODO wires shouldn't attach
 
 public class BlockPowerProbe extends Block {
 
@@ -163,21 +163,21 @@ public class BlockPowerProbe extends Block {
 
   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
     if (worldIn.isRemote) {
-      return;
+     return;
     }
+    originalLogic(worldIn, pos.offset(state.getValue(FACING)));
+  }
 
-    //this.updateSurroundingRedstone(worldIn, pos, state);
-    //worldIn.notifyNeighborsOfStateChange(pos, this, false);
-
-    for (EnumFacing enumfacing : EnumFacing.Plane.VERTICAL) {
+  private void originalLogic(World worldIn, BlockPos pos) {
+    for (EnumFacing enumfacing : EnumFacing.values()) {
       worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
     }
 
-    for (EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL) {
+    for (EnumFacing enumfacing1 : EnumFacing.values()) {
       this.notifyWireNeighborsOfStateChange(worldIn, pos.offset(enumfacing1));
     }
 
-    for (EnumFacing enumfacing2 : EnumFacing.Plane.HORIZONTAL) {
+    for (EnumFacing enumfacing2 : EnumFacing.values()) {
       BlockPos blockpos = pos.offset(enumfacing2);
 
       if (worldIn.getBlockState(blockpos).isNormalCube()) {
@@ -186,7 +186,6 @@ public class BlockPowerProbe extends Block {
         this.notifyWireNeighborsOfStateChange(worldIn, blockpos.down());
       }
     }
-
   }
 
   private void notifyWireNeighborsOfStateChange(World worldIn, BlockPos pos) {

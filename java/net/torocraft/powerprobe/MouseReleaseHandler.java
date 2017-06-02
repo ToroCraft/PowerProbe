@@ -16,12 +16,9 @@ import org.lwjgl.input.Mouse;
 
 // TODO player sound when using, and maybe when turned off
 
-// TODO move player arm when using
+public class MouseReleaseHandler {
 
-public class MouseHandler {
-
-  public static final MouseHandler INSTANCE = new MouseHandler();
-
+  public static final MouseReleaseHandler INSTANCE = new MouseReleaseHandler();
 
   private BlockPos targetBlockPos;
   private EnumFacing targetBlockSide;
@@ -33,9 +30,7 @@ public class MouseHandler {
 
   @SubscribeEvent(priority = EventPriority.NORMAL)
   public void handle(MouseInputEvent event) {
-    if (shouldStartUsing()) {
-      //startUsing();
-    }else if (shouldStopUsing()) {
+    if (shouldStopUsing()) {
       stopUsing();
     }
   }
@@ -44,11 +39,8 @@ public class MouseHandler {
     if (notHoldingProbe()) {
       return;
     }
-
     updateTargetedBlock();
-
     if (targetBlockPos != null && targetBlockSide != null) {
-      System.out.println("start using");
       PowerProbe.NETWORK.sendToServer(new MessageUsingProbe(Action.ADD, targetBlockPos, targetBlockSide));
       probeInUse = true;
     }
@@ -72,7 +64,6 @@ public class MouseHandler {
     if (notHoldingProbe()) {
       return;
     }
-    System.out.println("stop using");
     PowerProbe.NETWORK.sendToServer(new MessageUsingProbe(Action.REMOVE, targetBlockPos, targetBlockSide));
     probeInUse = false;
   }
@@ -89,13 +80,8 @@ public class MouseHandler {
     return true;
   }
 
-  private boolean shouldStartUsing() {
-    return Mouse.isButtonDown(1) && !probeInUse;
-  }
-
   private boolean shouldStopUsing() {
     return !Mouse.isButtonDown(1) && probeInUse;
   }
-
 
 }

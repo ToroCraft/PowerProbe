@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemRedstoneProbe extends Item {
 
   public static ItemRedstoneProbe INSTANCE;
-  public static String NAME = PowerProbe.MODID + "_probe";
+  private static String NAME = PowerProbe.MODID + "_probe";
   private static final String NBT_KEY_POS = "probe_pos";
 
   public static void init() {
@@ -32,30 +32,22 @@ public class ItemRedstoneProbe extends Item {
     Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(INSTANCE, 0, new ModelResourceLocation("minecraft:stick", "inventory"));
   }
 
-  public ItemRedstoneProbe() {
+  private ItemRedstoneProbe() {
     setUnlocalizedName(NAME);
     setCreativeTab(CreativeTabs.REDSTONE);
   }
 
   @Override
   public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
-
-
     ItemStack stack = player.getHeldItem(hand);
-
     if (stack.isEmpty() || stack.getItem() != INSTANCE) {
       return EnumActionResult.FAIL;
     }
-
-    if (MouseHandler.INSTANCE.probeInUse) {
+    if (MouseReleaseHandler.INSTANCE.probeInUse) {
       return EnumActionResult.SUCCESS;
     } else {
-      MouseHandler.INSTANCE.startUsing();
-      System.out.println("on use");
+      MouseReleaseHandler.INSTANCE.startUsing();
       return EnumActionResult.SUCCESS;
     }
   }
-
-
 }
