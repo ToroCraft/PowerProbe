@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=south": { "model": "powerprobe:probe_block" },
+    "facing=west": { "model": "powerprobe:probe_block"},
+    "facing=north": { "model": "powerprobe:probe_block"},
+    "facing=east": { "model": "powerprobe:probe_block"},
+    "facing=up": { "model": "powerprobe:probe_block"},
+    "facing=down": { "model": "powerprobe:probe_block"}
+  }
+}

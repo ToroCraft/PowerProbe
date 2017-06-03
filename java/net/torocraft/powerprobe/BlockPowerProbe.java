@@ -28,10 +28,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 // TODO show target on inner face
 
-// TODO power the correct face
-
-// TODO make box invisible
-
 // TODO wires shouldn't attach
 
 public class BlockPowerProbe extends Block {
@@ -102,7 +98,7 @@ public class BlockPowerProbe extends Block {
 
   @Override
   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-    remove(worldIn, pos);
+    //remove(worldIn, pos);
   }
 
   private void remove(World worldIn, BlockPos pos) {
@@ -132,32 +128,10 @@ public class BlockPowerProbe extends Block {
 
   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
     super.breakBlock(worldIn, pos, state);
-
     if (worldIn.isRemote) {
       return;
     }
-
-    // TODO only notify probe side
-    for (EnumFacing enumfacing : EnumFacing.values()) {
-      worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
-    }
-
-    //worldIn.notifyNeighborsOfStateChange(blockpos, this, false);
-
-    for (EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL) {
-      this.notifyWireNeighborsOfStateChange(worldIn, pos.offset(enumfacing1));
-    }
-
-    for (EnumFacing enumfacing2 : EnumFacing.Plane.HORIZONTAL) {
-      BlockPos blockpos = pos.offset(enumfacing2);
-
-      if (worldIn.getBlockState(blockpos).isNormalCube()) {
-        this.notifyWireNeighborsOfStateChange(worldIn, blockpos.up());
-      } else {
-        this.notifyWireNeighborsOfStateChange(worldIn, blockpos.down());
-      }
-    }
-
+    notifyWireNeighbors(worldIn, pos.offset(state.getValue(FACING)));
   }
 
 
@@ -165,20 +139,20 @@ public class BlockPowerProbe extends Block {
     if (worldIn.isRemote) {
      return;
     }
-    originalLogic(worldIn, pos.offset(state.getValue(FACING)));
+    notifyWireNeighbors(worldIn, pos.offset(state.getValue(FACING)));
   }
 
-  private void originalLogic(World worldIn, BlockPos pos) {
+  private void notifyWireNeighbors(World worldIn, BlockPos pos) {
     for (EnumFacing enumfacing : EnumFacing.values()) {
       worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
     }
 
-    for (EnumFacing enumfacing1 : EnumFacing.values()) {
-      this.notifyWireNeighborsOfStateChange(worldIn, pos.offset(enumfacing1));
+    for (EnumFacing side : EnumFacing.values()) {
+      this.notifyWireNeighborsOfStateChange(worldIn, pos.offset(side));
     }
 
-    for (EnumFacing enumfacing2 : EnumFacing.values()) {
-      BlockPos blockpos = pos.offset(enumfacing2);
+    for (EnumFacing side : EnumFacing.values()) {
+      BlockPos blockpos = pos.offset(side);
 
       if (worldIn.getBlockState(blockpos).isNormalCube()) {
         this.notifyWireNeighborsOfStateChange(worldIn, blockpos.up());
@@ -198,7 +172,6 @@ public class BlockPowerProbe extends Block {
     }
   }
 
-
   @Nullable
   public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
     return NULL_AABB;
@@ -216,11 +189,9 @@ public class BlockPowerProbe extends Block {
     return worldIn.isAirBlock(pos);
   }
 
-
   protected BlockStateContainer createBlockState() {
     return new BlockStateContainer(this, new IProperty[]{FACING});
   }
-
 
   /**
    * Convert the given metadata into a BlockState for this Block
@@ -252,7 +223,6 @@ public class BlockPowerProbe extends Block {
         iblockstate = iblockstate.withProperty(FACING, EnumFacing.DOWN);
         break;
     }
-
     return iblockstate;
   }
 
@@ -292,9 +262,7 @@ public class BlockPowerProbe extends Block {
         i = i | 5;
         break;
     }
-
     return i;
   }
-
 
 }

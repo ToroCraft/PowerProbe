@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -25,11 +27,13 @@ public class ItemRedstoneProbe extends Item {
   public static void init() {
     INSTANCE = new ItemRedstoneProbe();
     GameRegistry.register(INSTANCE, new ResourceLocation(PowerProbe.MODID, NAME));
+    GameRegistry.addRecipe(new ItemStack(ItemRedstoneProbe.INSTANCE), "r ", "r ", 'r', Blocks.REDSTONE_BLOCK);
+    GameRegistry.addRecipe(new ItemStack(ItemRedstoneProbe.INSTANCE), " r", " r", 'r', Blocks.REDSTONE_BLOCK);
   }
 
   @SideOnly(Side.CLIENT)
   public static void registerRenders() {
-    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(INSTANCE, 0, new ModelResourceLocation("minecraft:stick", "inventory"));
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(INSTANCE, 0, new ModelResourceLocation(PowerProbe.MODID + "_probe", "inventory"));
   }
 
   private ItemRedstoneProbe() {

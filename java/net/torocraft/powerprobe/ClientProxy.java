@@ -11,14 +11,14 @@ public class ClientProxy extends CommonProxy {
   public void preInit(FMLPreInitializationEvent e) {
     super.preInit(e);
     PowerOverlayRender.init();
+    PowerMeterGui.init();
+    MouseReleaseHandler.init();
   }
 
   @Override
   public void init(FMLInitializationEvent e) {
     super.init(e);
     ItemRedstoneProbe.registerRenders();
-    PowerMeterGui.init();
-    MouseReleaseHandler.init();
   }
 
   @Override

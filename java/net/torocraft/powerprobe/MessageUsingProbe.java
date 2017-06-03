@@ -1,10 +1,13 @@
 package net.torocraft.powerprobe;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -70,7 +73,7 @@ public class MessageUsingProbe implements IMessage {
       removePreviousProbe(data, message, player);
 
       if (Action.ADD.equals(message.action)) {
-        addProbe(player.world, message);
+        addProbe(player, message);
         data.setLong(NBT_KEY, message.target.toLong());
 
       } else {
@@ -98,12 +101,22 @@ public class MessageUsingProbe implements IMessage {
       }
     }
 
-    private BlockPos addProbe(World world, MessageUsingProbe message) {
+    private BlockPos addProbe(EntityPlayer player, MessageUsingProbe message) {
       BlockPos probePos = message.target.offset(message.side);
-      if (world.getBlockState(probePos).getBlock() == Blocks.AIR) {
-        world.setBlockState(probePos, BlockPowerProbe.INSTANCE.getDefaultState().withProperty(BlockPowerProbe.FACING, message.side));
+      if (isReplaceableBlockAt(player.world, probePos)) {
+        player.world.setBlockState(probePos, BlockPowerProbe.INSTANCE.getDefaultState().withProperty(BlockPowerProbe.FACING, message.side));
+        playSound(player);
       }
       return probePos;
     }
+
+    private void playSound(EntityPlayer player) {
+      player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_HOE_TILL, SoundCategory.NEUTRAL, 0.5f,
+          1f);
+    }
+  }
+
+  private static boolean isReplaceableBlockAt(World world, BlockPos probePos) {
+    return world.getBlockState(probePos).getBlock() == Blocks.AIR || world.getBlockState(probePos).getBlock() == BlockPowerProbe.INSTANCE;
   }
 }
