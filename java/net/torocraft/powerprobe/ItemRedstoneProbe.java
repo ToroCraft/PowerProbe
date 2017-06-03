@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -33,7 +32,7 @@ public class ItemRedstoneProbe extends Item {
 
   @SideOnly(Side.CLIENT)
   public static void registerRenders() {
-    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(INSTANCE, 0, new ModelResourceLocation(PowerProbe.MODID + "_probe", "inventory"));
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(INSTANCE, 0, new ModelResourceLocation(PowerProbe.MODID + ":" + NAME, "inventory"));
   }
 
   private ItemRedstoneProbe() {
@@ -43,6 +42,9 @@ public class ItemRedstoneProbe extends Item {
 
   @Override
   public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    if(!worldIn.isRemote){
+      return EnumActionResult.SUCCESS;
+    }
     ItemStack stack = player.getHeldItem(hand);
     if (stack.isEmpty() || stack.getItem() != INSTANCE) {
       return EnumActionResult.FAIL;

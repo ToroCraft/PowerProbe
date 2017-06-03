@@ -1,10 +1,10 @@
 {
   "variants": {
-    "facing=south": { "model": "powerprobe:probe_block" },
-    "facing=west": { "model": "powerprobe:probe_block"},
-    "facing=north": { "model": "powerprobe:probe_block"},
-    "facing=east": { "model": "powerprobe:probe_block"},
-    "facing=up": { "model": "powerprobe:probe_block"},
-    "facing=down": { "model": "powerprobe:probe_block"}
+    "facing=south": { "model": "powerprobe:probe_block_south" },
+    "facing=west": { "model": "powerprobe:probe_block_west"},
+    "facing=north": { "model": "powerprobe:probe_block_north"},
+    "facing=east": { "model": "powerprobe:probe_block_east"},
+    "facing=up": { "model": "powerprobe:probe_block_up"},
+    "facing=down": { "model": "powerprobe:probe_block_down"}
   }
 }

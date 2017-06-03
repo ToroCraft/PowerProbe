@@ -8,12 +8,10 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -24,21 +22,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-// TODO break when target block breaks
-
-// TODO show target on inner face
-
 // TODO wires shouldn't attach
 
 public class BlockPowerProbe extends Block {
 
   public static final PropertyDirection FACING = PropertyDirection.create("facing");
-
-  public static BlockPowerProbe INSTANCE;
   public static final String NAME = PowerProbe.MODID + "_block_probe";
+  public static BlockPowerProbe INSTANCE;
 
   public BlockPowerProbe() {
-    super(Material.AIR);
+    super(Material.CIRCUITS);
     setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
     setUnlocalizedName(NAME);
   }
@@ -50,55 +43,47 @@ public class BlockPowerProbe extends Block {
     GameRegistry.register(INSTANCE);
   }
 
-  public EnumBlockRenderType getRenderType(IBlockState state) {
-    return EnumBlockRenderType.INVISIBLE;
-  }
-
+  @Override
   public boolean requiresUpdates() {
     return true;
   }
 
-  @Override
-  public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random) {
-    System.out.println("random tick");
-    remove(worldIn, pos);
+  protected static final double BOX_UNIT = 0.0625D;
+  protected static final AxisAlignedBB UP_AABB = createBox(7, 0, 7, 9, 1, 9);
+  protected static final AxisAlignedBB DOWN_AABB = createBox(7, 15, 7, 9, 16, 9);
+  protected static final AxisAlignedBB EAST_AABB = createBox(0, 7, 7, 1, 9, 9);
+  protected static final AxisAlignedBB WEST_AABB = createBox(15, 7, 7, 16, 9, 9);
+  protected static final AxisAlignedBB SOUTH_AABB = createBox(7, 7, 0, 9, 9, 1);
+  protected static final AxisAlignedBB NORTH_AABB = createBox(7, 7, 15, 9, 9, 16);
+
+  public static AxisAlignedBB createBox(int x1, int y1, int z1, int x2, int y2, int z2) {
+    return new AxisAlignedBB(
+        x1 * BOX_UNIT,
+        y1 * BOX_UNIT,
+        z1 * BOX_UNIT,
+
+        x2 * BOX_UNIT,
+        y2 * BOX_UNIT,
+        z2 * BOX_UNIT
+    );
   }
 
   @Override
-  public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-    System.out.println("update tick");
-    remove(worldIn, pos);
-  }
-
-  protected static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(0.4D, 0.0D, 0.4D,    0.6D, 0.4D, 0.6D);
-//  protected static final AxisAlignedBB TORCH_NORTH_AABB = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.699999988079071D, 0.6499999761581421D, 0.800000011920929D, 1.0D);
-//  protected static final AxisAlignedBB TORCH_SOUTH_AABB = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.0D, 0.6499999761581421D, 0.800000011920929D, 0.30000001192092896D);
-//  protected static final AxisAlignedBB TORCH_WEST_AABB = new AxisAlignedBB(0.699999988079071D, 0.20000000298023224D, 0.3499999940395355D, 1.0D, 0.800000011920929D, 0.6499999761581421D);
-//  protected static final AxisAlignedBB TORCH_EAST_AABB = new AxisAlignedBB(0.0D, 0.20000000298023224D, 0.3499999940395355D, 0.30000001192092896D, 0.800000011920929D, 0.6499999761581421D);
-
-
   public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
     switch (state.getValue(FACING)) {
       case EAST:
-        return DOWN_AABB;
+        return EAST_AABB;
       case WEST:
-        return DOWN_AABB;
+        return WEST_AABB;
       case SOUTH:
-        return DOWN_AABB;
+        return SOUTH_AABB;
       case NORTH:
-        return DOWN_AABB;
+        return NORTH_AABB;
+      case UP:
+        return UP_AABB;
       default:
         return DOWN_AABB;
     }
-  }
-
-  protected void updateState(World worldIn, BlockPos pos, IBlockState state) {
-
-  }
-
-  @Override
-  public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-    //remove(worldIn, pos);
   }
 
   private void remove(World worldIn, BlockPos pos) {
@@ -107,6 +92,7 @@ public class BlockPowerProbe extends Block {
     }
   }
 
+  @Override
   public boolean canProvidePower(IBlockState state) {
     return true;
   }
@@ -115,10 +101,12 @@ public class BlockPowerProbe extends Block {
     return Items.AIR;
   }
 
+  @Override
   public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
     return blockState.getWeakPower(blockAccess, pos, side);
   }
 
+  @Override
   public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
     if (side == blockState.getValue(FACING)) {
       return 15;
@@ -126,25 +114,33 @@ public class BlockPowerProbe extends Block {
     return 0;
   }
 
+  @Override
   public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
     super.breakBlock(worldIn, pos, state);
     if (worldIn.isRemote) {
       return;
     }
-    notifyWireNeighbors(worldIn, pos.offset(state.getValue(FACING)));
+    notifyWireNeighbors(state, worldIn, pos.offset(state.getValue(FACING)));
   }
 
-
+  @Override
   public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
     if (worldIn.isRemote) {
-     return;
+      return;
     }
-    notifyWireNeighbors(worldIn, pos.offset(state.getValue(FACING)));
+    notifyWireNeighbors(state, worldIn, pos.offset(state.getValue(FACING)));
   }
 
-  private void notifyWireNeighbors(World worldIn, BlockPos pos) {
-    for (EnumFacing enumfacing : EnumFacing.values()) {
-      worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
+  private void notifyWireNeighbors(IBlockState state, World worldIn, BlockPos posIn) {
+    BlockPos pos = posIn.offset(state.getValue(FACING).getOpposite());
+    for (EnumFacing side : EnumFacing.values()) {
+      worldIn.notifyNeighborsOfStateChange(pos.offset(side), this, false);
+    }
+  }
+
+  private void notifyWireNeighborsOLD(World worldIn, BlockPos pos) {
+    for (EnumFacing side : EnumFacing.values()) {
+      worldIn.notifyNeighborsOfStateChange(pos.offset(side), this, false);
     }
 
     for (EnumFacing side : EnumFacing.values()) {
@@ -166,29 +162,34 @@ public class BlockPowerProbe extends Block {
     if (worldIn.getBlockState(pos).getBlock() == this) {
       worldIn.notifyNeighborsOfStateChange(pos, this, false);
 
-      for (EnumFacing enumfacing : EnumFacing.values()) {
-        worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
+      for (EnumFacing side : EnumFacing.values()) {
+        worldIn.notifyNeighborsOfStateChange(pos.offset(side), this, false);
       }
     }
   }
 
+  @Override
   @Nullable
   public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
     return NULL_AABB;
   }
 
+  @Override
   public boolean isOpaqueCube(IBlockState state) {
     return false;
   }
 
+  @Override
   public boolean isFullCube(IBlockState state) {
     return false;
   }
 
+  @Override
   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
     return worldIn.isAirBlock(pos);
   }
 
+  @Override
   protected BlockStateContainer createBlockState() {
     return new BlockStateContainer(this, new IProperty[]{FACING});
   }
