@@ -1,7 +1,7 @@
 
 # Redstone Power Probe
 
-This Minecraft Mod adds a new item to the game, the Redstone Power Probe.  With the power probe in hand, a player will see information about the current redstone power level of the block under their cursor.  The block will be shaded red if the block is strongly powered, yellow if the block is weakly powered or not altered at all for unpowered blocks.  Blocks that are powered will also cause a number to be visible to the right of the cursor.  The number repersents the current power level of the block which can be 1 to 15.
+This Minecraft Mod adds a new item to the game, the Redstone Power Probe.  With the power probe in hand, a player will see information about the current redstone power level of the block under their cursor.  The block will be shaded red if the block is strongly powered, yellow if the block is weakly powered or not altered at all for unpowered blocks.  When blocks are powered a number to be visible to the right of the cursor.  This number repersents the current power level of the block which can be 1 to 15.
 
 ## Redstone Power Probe Recipe
 
@@ -13,13 +13,13 @@ This Minecraft Mod adds a new item to the game, the Redstone Power Probe.  With 
 
 Right clicking with the wand in hand will cause the power probe to power the block under the cursor.  The power probe can only power blocks on faces that are adjacent to an air block.  When the probe is powering a block, a small redstone block will be visible on the face of the block it is strongly powering.
 
-## Strong Power Overlay
+## Strongly Powered Overlay
 
-![Strong Power](http://i.imgur.com/5VIIcsx.png)
+![Strongly Powered Overlay](http://i.imgur.com/5VIIcsx.png)
 
-## Weak Power Overlay
+## Weakly Powered Overlay
 
-![Weak Power](http://i.imgur.com/PztQoe6.png)
+![Weakly Powered Overlay](http://i.imgur.com/PztQoe6.png)
 
 ## Development Environment Setup
 Download the desired version of Forge MDK from https://files.minecraftforge.net/ and unzip the MDK into a new directory. After the MDK is unzipped, clone this repository into the `src` directory as `main`. Then you will need to either copy or link the `build.gradle` from the repository to the root of the MDK, replacing the original one. 
