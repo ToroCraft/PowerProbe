@@ -18,26 +18,25 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageUsingProbe implements IMessage {
 
   private static final String NBT_KEY = "redstone_probe_location";
-
-  public enum Action {ADD, REMOVE}
-
   public Action action;
   public BlockPos target;
   public EnumFacing side;
-
   public MessageUsingProbe() {
 
+  }
+
+  public MessageUsingProbe(Action action, BlockPos target, EnumFacing side) {
+    this.action = action;
+    this.target = target;
+    this.side = side;
   }
 
   public static void init(int packetId) {
     PowerProbe.NETWORK.registerMessage(MessageUsingProbe.Handler.class, MessageUsingProbe.class, packetId, Side.SERVER);
   }
 
-
-  public MessageUsingProbe(Action action, BlockPos target, EnumFacing side) {
-    this.action = action;
-    this.target = target;
-    this.side = side;
+  private static boolean isReplaceableBlockAt(World world, BlockPos probePos) {
+    return world.getBlockState(probePos).getBlock() == Blocks.AIR || world.getBlockState(probePos).getBlock() == BlockPowerProbe.INSTANCE;
   }
 
   @Override
@@ -53,6 +52,8 @@ public class MessageUsingProbe implements IMessage {
     buf.writeLong(target.toLong());
     buf.writeInt(side.ordinal());
   }
+
+  public enum Action {ADD, REMOVE}
 
   public static class Handler implements IMessageHandler<MessageUsingProbe, IMessage> {
 
@@ -114,9 +115,5 @@ public class MessageUsingProbe implements IMessage {
       player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_HOE_TILL, SoundCategory.NEUTRAL, 0.5f,
           1f);
     }
-  }
-
-  private static boolean isReplaceableBlockAt(World world, BlockPos probePos) {
-    return world.getBlockState(probePos).getBlock() == Blocks.AIR || world.getBlockState(probePos).getBlock() == BlockPowerProbe.INSTANCE;
   }
 }

@@ -19,9 +19,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemRedstoneProbe extends Item {
 
+  private static final String NBT_KEY_POS = "probe_pos";
   public static ItemRedstoneProbe INSTANCE;
   private static String NAME = PowerProbe.MODID + "_probe";
-  private static final String NBT_KEY_POS = "probe_pos";
+
+  private ItemRedstoneProbe() {
+    setUnlocalizedName(NAME);
+    setCreativeTab(CreativeTabs.REDSTONE);
+  }
 
   public static void init() {
     INSTANCE = new ItemRedstoneProbe();
@@ -35,14 +40,9 @@ public class ItemRedstoneProbe extends Item {
     Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(INSTANCE, 0, new ModelResourceLocation(PowerProbe.MODID + ":" + NAME, "inventory"));
   }
 
-  private ItemRedstoneProbe() {
-    setUnlocalizedName(NAME);
-    setCreativeTab(CreativeTabs.REDSTONE);
-  }
-
   @Override
   public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-    if(!worldIn.isRemote){
+    if (!worldIn.isRemote) {
       return EnumActionResult.SUCCESS;
     }
     ItemStack stack = player.getHeldItem(hand);

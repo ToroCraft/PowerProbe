@@ -177,7 +177,7 @@ public class RayTracer {
   }
 
   private static boolean isHit(IBlockState state, Block block1, boolean ignoreNonOpaqueCube) {
-    if(ignoreNonOpaqueCube && !state.isOpaqueCube()){
+    if (ignoreNonOpaqueCube && !state.isOpaqueCube()) {
       return false;
     }
     return block1.canCollideCheck(state, stopOnLiquid);

@@ -11,6 +11,7 @@ public class CommonProxy {
     MessageUsingProbe.init(0);
     BlockPowerProbe.init();
     ItemRedstoneProbe.init();
+    ItemRedstoneArmor.init();
   }
 
   public void init(FMLInitializationEvent e) {

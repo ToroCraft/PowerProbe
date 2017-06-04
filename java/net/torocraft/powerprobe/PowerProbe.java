@@ -14,7 +14,7 @@ public class PowerProbe {
 
   public static final String MODID = "powerprobe";
   public static final String MODNAME = "PowerProbe";
-  public static final String VERSION = "1.11.2-1.0";
+  public static final String VERSION = "1.11.2-2.0";
 
   @Mod.Instance(MODID)
   public static PowerProbe INSTANCE;

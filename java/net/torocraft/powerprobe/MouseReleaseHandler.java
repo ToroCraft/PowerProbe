@@ -19,10 +19,9 @@ import org.lwjgl.input.Mouse;
 public class MouseReleaseHandler {
 
   public static final MouseReleaseHandler INSTANCE = new MouseReleaseHandler();
-
+  public boolean probeInUse;
   private BlockPos targetBlockPos;
   private EnumFacing targetBlockSide;
-  public boolean probeInUse;
 
   public static void init() {
     MinecraftForge.EVENT_BUS.register(INSTANCE);

@@ -14,15 +14,13 @@ public class PowerMeterGui extends Gui {
 
   private static final int COLOR = 0xFFFFFF;
   private static final Minecraft mc = Minecraft.getMinecraft();
-
-  public static void init() {
-    MinecraftForge.EVENT_BUS.register(INSTANCE);
-  }
-
   private ScaledResolution viewport;
   private int power;
   private boolean enabled = true;
 
+  public static void init() {
+    MinecraftForge.EVENT_BUS.register(INSTANCE);
+  }
 
   public int getPower() {
     return power;

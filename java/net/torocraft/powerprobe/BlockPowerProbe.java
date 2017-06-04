@@ -28,8 +28,14 @@ public class BlockPowerProbe extends Block {
 
   public static final PropertyDirection FACING = PropertyDirection.create("facing");
   public static final String NAME = PowerProbe.MODID + "_block_probe";
+  protected static final double BOX_UNIT = 0.0625D;
+  protected static final AxisAlignedBB UP_AABB = createBox(7, 0, 7, 9, 1, 9);
+  protected static final AxisAlignedBB DOWN_AABB = createBox(7, 15, 7, 9, 16, 9);
+  protected static final AxisAlignedBB EAST_AABB = createBox(0, 7, 7, 1, 9, 9);
+  protected static final AxisAlignedBB WEST_AABB = createBox(15, 7, 7, 16, 9, 9);
+  protected static final AxisAlignedBB SOUTH_AABB = createBox(7, 7, 0, 9, 9, 1);
+  protected static final AxisAlignedBB NORTH_AABB = createBox(7, 7, 15, 9, 9, 16);
   public static BlockPowerProbe INSTANCE;
-
   public BlockPowerProbe() {
     super(Material.CIRCUITS);
     setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
@@ -43,19 +49,6 @@ public class BlockPowerProbe extends Block {
     GameRegistry.register(INSTANCE);
   }
 
-  @Override
-  public boolean requiresUpdates() {
-    return true;
-  }
-
-  protected static final double BOX_UNIT = 0.0625D;
-  protected static final AxisAlignedBB UP_AABB = createBox(7, 0, 7, 9, 1, 9);
-  protected static final AxisAlignedBB DOWN_AABB = createBox(7, 15, 7, 9, 16, 9);
-  protected static final AxisAlignedBB EAST_AABB = createBox(0, 7, 7, 1, 9, 9);
-  protected static final AxisAlignedBB WEST_AABB = createBox(15, 7, 7, 16, 9, 9);
-  protected static final AxisAlignedBB SOUTH_AABB = createBox(7, 7, 0, 9, 9, 1);
-  protected static final AxisAlignedBB NORTH_AABB = createBox(7, 7, 15, 9, 9, 16);
-
   public static AxisAlignedBB createBox(int x1, int y1, int z1, int x2, int y2, int z2) {
     return new AxisAlignedBB(
         x1 * BOX_UNIT,
@@ -66,6 +59,11 @@ public class BlockPowerProbe extends Block {
         y2 * BOX_UNIT,
         z2 * BOX_UNIT
     );
+  }
+
+  @Override
+  public boolean requiresUpdates() {
+    return true;
   }
 
   @Override
