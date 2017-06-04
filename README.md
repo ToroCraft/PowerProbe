@@ -1,7 +1,7 @@
 
 # Redstone Power Probe
 
-This Minecraft Mod adds a new item to the game, the Redstone Power Probe.  With the power probe in hand, a player will see information about the current redstone power level of the block under their cursor.  The block will be shaded red if the block is strongly powered, yellow if the block is weakly powered or not altered at all for unpowered blocks.  When blocks are powered a number to be visible to the right of the cursor.  This number repersents the current power level of the block which can be 1 to 15.
+This Minecraft Mod adds a new item to the game, the Redstone Power Probe.  With the power probe in hand, a player will see information about the current redstone power level of the block under their cursor.  The block will be shaded red if the block is strongly powered, yellow if the block is weakly powered or not altered at all for unpowered blocks.  When blocks are powered a number to be visible to the right of the cursor.  This number represents the current power level of the block which can be 1 to 15.
 
 ## Redstone Power Probe Recipe
 
