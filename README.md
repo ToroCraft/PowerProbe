@@ -26,7 +26,7 @@ Right clicking with the wand in hand will cause the power probe to power the blo
 
 ![Redstone Visor Recipe](http://i.imgur.com/PlFt0YA.png)
 
-Players can get a more complete idea of the powered blocks around them when wearing the Redstone Visor.  With the Redstone Visor equipped, all blocks within 5 blocks of the player will be shaded when powered.  The shading overlay is used is the same as the one used for the Redstone Power Probe, however the range is more limited and the power number is not displayed.
+Players can get a more complete idea of the powered blocks around them when wearing the Redstone Visor.  With the Redstone Visor equipped, all blocks within 5 blocks of the player will be shaded when powered.  The shading overlay used is the same as the one used for the Redstone Power Probe, however the range is more limited and the power number is not displayed.
 
 ![Restone Visor on Player](http://i.imgur.com/bT7x8G1.png)
 
