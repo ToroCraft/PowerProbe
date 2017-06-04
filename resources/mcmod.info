@@ -2,7 +2,7 @@
 {
   "modid": "powerprobe",
   "name": "Redstone Power Probe",
-  "description": "A Minecraft mod to help visualize powered blocks as well as power them",
+  "description": "A Minecraft mod to help visualize powered blocks as well as power them.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
